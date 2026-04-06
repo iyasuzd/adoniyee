@@ -1,351 +1,627 @@
 <!doctype html>
 <html lang="en" class="h-full">
-<head>
+ <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Day 1 – The Beginning</title>
-
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Dancing+Script:wght@400;600;700&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
-
+  <title>Day 2 – Her Smile</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&amp;family=Dancing+Script:wght@400;500;600;700&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet">
   <style>
-    :root {
-      --primary: #f9a8d4;
-      --secondary: #fbcfe8;
-      --text: #fce7f3;
-    }
-body.glow {
-  animation: glowPulse 2s ease;
-}
+    html, body { height: 100%; margin: 0; overflow: auto; }
 
-@keyframes glowPulse {
-  0% { filter: brightness(1); }
-  50% { filter: brightness(1.3); }
-  100% { filter: brightness(1); }
-}
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: 'Cormorant Garamond', serif;
+    .letter-bg {
+      background: radial-gradient(ellipse 150% 150% at 50% 40%, #fef5f1 0%, #fce8e0 20%, #f5d4c8 50%, #edc4b8 100%);
+      position: relative;
+      min-height: 100%;
+      width: 100%;
       overflow-x: hidden;
     }
 
-    body {
-      background: radial-gradient(circle at top, #3b0a2a, #140016);
-    }
-
-    .container {
-      min-height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-      position: relative;
-    }
-
-    /* Floating petals background */
-    .petal {
+    .ambient-glow {
       position: fixed;
-      top: -20px;
-      font-size: 14px;
-      opacity: 0.6;
-      animation: fall linear infinite;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
     }
 
-    @keyframes fall {
-      0% { transform: translateY(0) rotate(0deg); }
-      100% { transform: translateY(110vh) rotate(360deg); }
-    }
+    .glow-1 { width: 500px; height: 500px; top: -150px; left: 10%; opacity: 0.08; }
+    .glow-2 { width: 400px; height: 400px; bottom: -100px; right: 15%; opacity: 0.06; }
+    .glow-3 { width: 350px; height: 350px; top: 50%; left: 50%; transform: translateX(-50%); opacity: 0.05; }
 
     .glass-card {
-      backdrop-filter: blur(25px);
-      background: rgba(30, 10, 25, 0.6);
-      border: 1px solid rgba(255, 200, 210, 0.2);
+      backdrop-filter: blur(32px);
+      -webkit-backdrop-filter: blur(32px);
+      border: 1px solid rgba(255, 220, 200, 0.3);
       box-shadow:
-        0 15px 50px rgba(0,0,0,0.5),
-        0 0 80px rgba(255, 180, 200, 0.15);
-      border-radius: 24px;
-      padding: 2rem;
-      max-width: 650px;
-      width: 100%;
-      text-align: center;
-      color: var(--text);
-      animation: fadeIn 1.2s ease;
+        0 12px 48px rgba(200, 120, 100, 0.12),
+        0 0 120px rgba(255, 200, 150, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
     }
 
-    @keyframes fadeIn {
+    @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .title {
-      font-family: 'Dancing Script', cursive;
-      font-size: 2.4rem;
-      color: var(--primary);
-      margin-bottom: 0.3rem;
-    }
-
-    .subtitle {
-      font-family: 'Lora', serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
-      opacity: 0.6;
-      margin-bottom: 1.5rem;
-    }
-
-    .greeting {
-      font-family: 'Dancing Script', cursive;
-      font-size: 1.5rem;
-      color: var(--secondary);
-      margin-bottom: 1rem;
-    }
-
-    .letter p {
-      margin-bottom: 1rem;
-      line-height: 2;
-      font-size: 1.1rem;
-    }
-
-    .closing {
-      font-family: 'Dancing Script', cursive;
-      color: var(--primary);
-      margin-top: 1.5rem;
-    }
-
-    .signature {
-      opacity: 0.7;
-    }
-
-    .hint {
-      margin-top: 1.5rem;
-      font-size: 0.75rem;
-      opacity: 0.5;
-      letter-spacing: 0.1em;
-    }
-
-    /* Flower click effect */
-    .flower {
-      position: fixed;
-      pointer-events: none;
-      z-index: 100;
-      animation: bloom 0.6s ease-out forwards;
-    }
-
-    @keyframes bloom {
-      0% { transform: scale(0); opacity: 0; }
-      60% { transform: scale(1.3); opacity: 1; }
-      100% { transform: scale(1); opacity: 0.9; }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     @keyframes fadeOut {
-      to { opacity: 0; transform: translateY(-50px) scale(0.5); }
+      from { opacity: 1; }
+      to { opacity: 0; }
     }
 
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(3deg); }
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes petalDrift {
+      0% { transform: translateY(-20px) rotate(0deg) translateX(0); opacity: 0; }
+      10% { opacity: 0.7; }
+      90% { opacity: 0.7; }
+      100% { transform: translateY(calc(100% + 40px)) rotate(360deg) translateX(40px); opacity: 0; }
+    }
+
+    @keyframes bloomGlow {
+      0% { transform: scale(0) rotate(-30deg); opacity: 0; filter: blur(4px); }
+      60% { transform: scale(1.3) rotate(5deg); opacity: 0.85; filter: blur(2px); }
+      100% { transform: scale(1) rotate(0deg); opacity: 0.6; filter: blur(6px); }
+    }
+
+    @keyframes bloomGlowFade {
+      0% { opacity: 0.6; transform: scale(1) translateY(0); filter: blur(6px); }
+      100% { opacity: 0; transform: scale(0.5) translateY(-40px); filter: blur(20px); }
+    }
+
+    @keyframes glowExpand {
+      0% { transform: scale(0); opacity: 1; }
+      100% { transform: scale(2); opacity: 0; }
+    }
+
+    @keyframes heartZoom {
+      0% { transform: scale(0); opacity: 0; filter: blur(10px); }
+      50% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes heartGlow {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(220, 100, 120, 0.4)); }
+      50% { filter: drop-shadow(0 0 40px rgba(220, 100, 120, 0.6)); }
+    }
+
+    .animate-fade-in-up { animation: fadeInUp 1.2s ease-out forwards; }
+    .animate-fade-in { animation: fadeIn 1.5s ease-out forwards; }
+    .animate-fade-out { animation: fadeOut 1s ease-out forwards; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .delay-600 { animation-delay: 0.6s; }
+    .delay-800 { animation-delay: 0.8s; }
+    .delay-1000 { animation-delay: 1.0s; }
+    .delay-1200 { animation-delay: 1.2s; }
+
+    .sparkle-particle {
+      position: fixed;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .floating-petal {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1;
+      font-size: 14px;
+      animation: petalDrift linear forwards;
+    }
+
+    .bloom-flower {
+      position: fixed;
+      pointer-events: none;
+      z-index: 50;
+      animation: bloomGlow 0.8s ease-out forwards;
+    }
+
+    .bloom-flower.fading {
+      animation: bloomGlowFade 2s ease-out forwards;
+    }
+
+    .glow-pulse {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 2;
+      animation: glowExpand 1.2s ease-out forwards;
+    }
+
+    .progress-track {
+      height: 2px;
+      border-radius: 1px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 1px;
+      transition: width 1s ease-out;
+    }
+
+    .letter-text {
+      line-height: 2;
+      letter-spacing: 0.01em;
+    }
+
+    .divider-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(230, 180, 160, 0.25), transparent);
+    }
+
+    .heart-frame {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 100;
+      pointer-events: none;
+      animation: heartZoom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .heart-shape {
+      width: 280px;
+      height: 280px;
+      position: relative;
+      animation: heartGlow 2s ease-in-out infinite;
+    }
+
+    .heart-shape::before,
+    .heart-shape::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      width: 160px;
+      height: 250px;
+      background: rgba(255, 245, 240, 0.9);
+      border-radius: 160px 160px 0 0;
+      border: 2px solid rgba(220, 100, 120, 0.3);
+    }
+
+    .heart-shape::before {
+      left: 140px;
+      transform: rotate(-45deg);
+      transform-origin: 0 140px;
+    }
+
+    .heart-shape::after {
+      left: 0;
+      transform: rotate(45deg);
+      transform-origin: 160px 140px;
+    }
+
+    .heart-image {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 30px rgba(220, 100, 120, 0.3);
+    }
+
+    .hidden { display: none; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(200, 140, 120, 0.2); border-radius: 2px; }
   </style>
-</head>
-
-<body>
-<div id="loveGate" class="fixed inset-0 flex items-center justify-center bg-black/70 z-50">
-  <div class="glass-card p-8 text-center max-w-sm w-full">
-    
-    <h2 style="font-family: 'Dancing Script', cursive; font-size:1.8rem; color:#f9a8d4;">
-      I LOVE YOU, DO U?
-    </h2>
-
-    <input 
-      id="loveInput"
-      type="text"
-      placeholder="type your answer..."
-      class="mt-4 p-2 w-full rounded bg-black/30 text-pink-100 outline-none text-center"
-    >
-
-    <button 
-      onclick="checkLove()"
-      class="mt-4 px-4 py-2 rounded bg-pink-400/70 hover:bg-pink-400 text-white">
-      Enter
-    </button>
-
-    <p id="errorMsg" class="mt-3 text-sm text-pink-300 opacity-70"></p>
-
-  </div>
-</div>
-<div class="container">
-
-  <div class="glass-card">
-
-    <div class="subtitle">DAY 1 OF 18</div>
-
-    <div class="title">Day 1 – The Beginning</div>
-
-    <div class="subtitle">A LETTER WRITTEN WITH LOVE</div>
-
-    <div class="greeting">My Dearest,</div>
-
-    <div class="letter">
-      <p>I was hoping to have a great year,
-      with a new mood…
-      even a little scared
-      of what each month might bring.</p>
-
-      <p>And then my birthday came to greet me
-      with a gift
-      not just from my mom,
-      but from God,
-      from pure nature itself.</p>
-
-      <p>Something fresh,
-      something alive,
-      something my mind was excited to explore…
-      yet my heart was a little afraid,
-      like I could get lost in it.</p>
-
-      <p>But then your eyes found mine—<br>
-      shining so bright,
-      like a quiet light in the dark,
-      telling me without words
-      that I would be fine.</p>
-
-      <p>At first, it was joy…
-      soft and unexpected.
-      And then, slowly
-      it became love.</p>
-
-      <p>It’s just four words<br>
-      to express my feelings…<br>
-      but they carry everything I have.</p>
-
-      <p>You look so bright, like a dove 
-      gentle, peaceful,
-      graceful in a way I can’t explain.
-      Tall, like someone I can look up to…
-      and somehow still feel safe with.</p>
-
-      <p>You are a place
-      where my heart feels at rest,
-      a comfort
-      where I can finally lie down
-      and just be.</p>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <audio id="backgroundMusic" loop>
+  <source src="Nat_King_Cole_L_O_V_E_Lyric_Video_NatKingColeVEVO_youtube.m4a" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+  <div class="letter-bg" id="mainBg">
+   <!-- Ambient glows -->
+   <div class="ambient-glow glow-1" id="glow1"></div>
+   <div class="ambient-glow glow-2" id="glow2"></div>
+   <div class="ambient-glow glow-3" id="glow3"></div><!-- Sparkles container -->
+   <div id="sparklesContainer"></div><!-- Petals container -->
+   <div id="petalsContainer"></div><!-- Main content -->
+   <div class="flex items-center justify-center w-full" style="min-height: 100%; padding: 2rem 1rem;">
+    <div class="w-full max-w-lg relative z-10">
+     <!-- Opening question screen -->
+     <div id="openingScreen" class="text-center">
+      <p id="openingQuestion" class="opacity-0 animate-fade-in" style="font-family: 'Dancing Script', cursive; font-size: 1.8rem; font-weight: 500; animation-fill-mode: forwards;"></p>
+      <p class="text-xs mt-8 opacity-0 animate-fade-in tracking-widest" id="tapPrompt" style="font-family: 'Lora', serif; animation-delay: 1s; animation-fill-mode: forwards;">tap to continue</p>
+     </div><!-- Reveal line screen -->
+     <div id="revealScreen" class="hidden text-center">
+      <p id="revealLine" class="opacity-0 animate-fade-in" style="font-family: 'Dancing Script', cursive; font-size: 1.6rem; font-weight: 500; animation-fill-mode: forwards;"></p>
+     </div><!-- Progress indicator -->
+     <div id="progressContainer" class="hidden opacity-0 animate-fade-in mb-6 text-center" style="animation-delay: 0.2s; animation-fill-mode: forwards;">
+      <p class="text-xs tracking-[0.3em] uppercase mb-2 opacity-60" id="progressLabel" style="font-family: 'Lora', serif;"></p>
+      <div class="progress-track mx-auto" id="progressTrack" style="width: 120px;">
+       <div class="progress-fill" id="progressFill" style="width: 5.56%;"></div>
+      </div>
+     </div><!-- Glass card -->
+     <div id="letterCard" class="hidden glass-card rounded-2xl p-8 md:p-10 opacity-0 animate-fade-in-up" style="animation-delay: 0.4s; animation-fill-mode: forwards; background: rgba(255, 245, 240, 0.7);">
+      <!-- Decorative top flourish -->
+      <div class="text-center mb-4 opacity-0 animate-fade-in" style="animation-delay: 0.8s; animation-fill-mode: forwards;">
+       <svg width="60" height="20" viewbox="0 0 60 20" class="inline-block opacity-40" id="flourishSvg"><path d="M0 10 Q15 0 30 10 Q45 20 60 10" stroke="currentColor" fill="none" stroke-width="1" />
+       </svg>
+      </div><!-- Letter Title -->
+      <h1 class="text-center mb-2 opacity-0 animate-fade-in" id="letterTitle" style="font-family: 'Dancing Script', cursive; font-size: 1.6rem; animation-delay: 0.85s; animation-fill-mode: forwards;"></h1><!-- Letter Subtitle -->
+      <p class="text-center mb-6 opacity-0 animate-fade-in" id="letterSubtitle" style="font-family: 'Lora', serif; font-size: 0.9rem; font-style: italic; animation-delay: 0.9s; animation-fill-mode: forwards;"></p><!-- Voice Button --> <!-- Divider -->
+      <div class="divider-line mb-6"></div><!-- Greeting -->
+      <p class="mb-6 opacity-0 animate-fade-in" id="letterGreeting" style="font-family: 'Dancing Script', cursive; font-size: 1.4rem; animation-delay: 1.0s; animation-fill-mode: forwards;"></p><!-- Letter body -->
+      <div class="letter-text opacity-0 animate-fade-in mb-8" id="letterBody" style="font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 300; animation-delay: 1.2s; animation-fill-mode: forwards;"></div>
+      <div class="divider-line mb-6"></div><!-- Closing -->
+      <p class="text-right opacity-0 animate-fade-in" id="letterClosing" style="font-family: 'Dancing Script', cursive; font-size: 1.2rem; animation-delay: 1.4s; animation-fill-mode: forwards;"></p><!-- Signature -->
+      <p class="text-right mt-2 opacity-0 animate-fade-in" id="letterSignature" style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.95rem; animation-delay: 1.6s; animation-fill-mode: forwards;"></p><!-- Bottom flourish -->
+      <div class="text-center mt-8 opacity-0 animate-fade-in" style="animation-delay: 1.8s; animation-fill-mode: forwards;">
+       <span class="text-lg opacity-30" id="bottomFlourish">✦</span>
+      </div>
+     </div><!-- Click hint -->
+     <p id="clickHint" class="hidden text-center mt-6 text-xs opacity-0 animate-fade-in tracking-wider" style="font-family: 'Lora', serif; animation-delay: 2.2s; animation-fill-mode: forwards;">tap anywhere to bloom a flower ✿</p>
     </div>
-
-    <div class="closing">With all my heart,</div>
-    <div class="signature">Forever yours</div>
-
-    <div class="hint">tap anywhere to bloom a flower ✿</div>
-
+   </div>
   </div>
+  <script>
+    const defaultConfig = {
+      background_color: '#fef5f1',
+      surface_color: 'rgba(255, 245, 240, 0.7)',
+      text_color: '#8b6f5f',
+      primary_action_color: '#d4956f',
+      secondary_action_color: '#c98577',
+      font_family: 'Cormorant Garamond',
+      font_size: 16,
+      opening_question: 'Do you know what makes your smile different?',
+      reveal_line: 'Let me show you…',
+      letter_title: 'Day 2 – Your Smile',
+      letter_subtitle: 'A letter written with love',
+      letter_greeting: 'My Dearest,',
+      letter_body: 'Another day to speak in my own way… which is through your smile. That one thing I can never avoid. The first time my eyes met your smile, I felt a confidence I had never known before. In your smile there\'s something so unique about it—it gives me chills.\n\nEnjoying life feels effortless with you, which is the simplest and most priceless thing I could ever do in my time with you. So, thank you, Adoniyee, for every moment your laughter heals a wound I thought would never fade—a pain that once held back my potential.\n\nThat\'s why I try my very best to make you laugh until you\'re breathless, because each melody you create through your laughter is the most beautiful thing that keeps me standing strong.',
+      letter_closing: 'Endlessly drawn to your warmth,',
+      letter_signature: 'Always yours'
+    };
 
-</div>
+    let currentState = 'opening'; // 'opening', 'reveal', 'letter'
 
-<script>
-  const flowers = ['🌸','🌷','🌹','💐'];
+    // Flower SVGs for click bloom
+    const flowerSVGs = [
+      `<svg width="40" height="40" viewBox="0 0 40 40"><g opacity="0.75"><circle cx="20" cy="14" r="6" fill="#f0c8a0"/><circle cx="13" cy="20" r="6" fill="#e8b890"/><circle cx="27" cy="20" r="6" fill="#dba88c"/><circle cx="16" cy="28" r="6" fill="#e0b088"/><circle cx="24" cy="28" r="6" fill="#d8a080"/><circle cx="20" cy="20" r="4" fill="#ffd4a3" filter="url(#glow)"/></g><defs><filter id="glow"><feGaussianBlur stdDeviation="1.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs></svg>`,
+      `<svg width="36" height="36" viewBox="0 0 36 36"><g opacity="0.7"><ellipse cx="18" cy="10" rx="5" ry="8" fill="#e8c0a0" transform="rotate(0 18 18)"/><ellipse cx="18" cy="10" rx="5" ry="8" fill="#dab090" transform="rotate(72 18 18)"/><ellipse cx="18" cy="10" rx="5" ry="8" fill="#d0a088" transform="rotate(144 18 18)"/><ellipse cx="18" cy="10" rx="5" ry="8" fill="#e0b898" transform="rotate(216 18 18)"/><ellipse cx="18" cy="10" rx="5" ry="8" fill="#d8a890" transform="rotate(288 18 18)"/><circle cx="18" cy="18" r="4" fill="#ffe0b3" filter="url(#glow2)"/></g><defs><filter id="glow2"><feGaussianBlur stdDeviation="1.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs></svg>`,
+      `<svg width="44" height="44" viewBox="0 0 44 44"><g opacity="0.65"><circle cx="22" cy="12" r="7" fill="#f0c8a8"/><circle cx="32" cy="16" r="7" fill="#e8b898"/><circle cx="35" cy="27" r="7" fill="#dba890"/><circle cx="28" cy="35" r="7" fill="#dba888"/><circle cx="16" cy="35" r="7" fill="#d0a080"/><circle cx="9" cy="27" r="7" fill="#e0b090"/><circle cx="12" cy="16" r="7" fill="#dab08a"/><circle cx="22" cy="22" r="5" fill="#ffd9b3" filter="url(#glow3)"/></g><defs><filter id="glow3"><feGaussianBlur stdDeviation="2" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs></svg>`
+    ];
 
-  document.addEventListener('click', (e) => {
-    const f = document.createElement('div');
-    f.className = 'flower';
-    f.innerText = flowers[Math.floor(Math.random()*flowers.length)];
-    f.style.left = e.clientX + 'px';
-    f.style.top = e.clientY + 'px';
-    f.style.fontSize = '26px';
+    const petalChars = ['🌸', '✿', '❀', '𖤣'];
 
-    document.body.appendChild(f);
-
-    setTimeout(() => {
-      f.style.animation = 'fadeOut 1.5s forwards';
-      setTimeout(() => f.remove(), 1500);
-    }, 500);
-  });
-function createBurstFlower() {
-  const flowers = ['🌸','🌷','🌹','💐'];
-
-  const f = document.createElement('div');
-  f.innerText = flowers[Math.floor(Math.random() * flowers.length)];
-  f.style.position = "fixed";
-  f.style.left = (window.innerWidth / 2) + "px";
-  f.style.top = (window.innerHeight / 2) + "px";
-  f.style.fontSize = (20 + Math.random()*20) + "px";
-  f.style.pointerEvents = "none";
-  f.style.zIndex = "100";
-
-  const angle = Math.random() * 2 * Math.PI;
-  const distance = 100 + Math.random() * 200;
-
-  const x = Math.cos(angle) * distance;
-  const y = Math.sin(angle) * distance;
-
-  f.style.transition = "transform 1.2s ease-out, opacity 1.2s";
-
-  document.body.appendChild(f);
-
-  setTimeout(() => {
-    f.style.transform = `translate(${x}px, ${y}px) scale(0.5)`;
-    f.style.opacity = "0";
-  }, 50);
-
-  setTimeout(() => f.remove(), 1200);
-}
-  // floating petals background
-  setInterval(() => {
-    const petal = document.createElement('div');
-    petal.className = 'petal';
-    petal.innerText = flowers[Math.floor(Math.random()*flowers.length)];
-    petal.style.left = Math.random() * 100 + 'vw';
-    petal.style.animationDuration = (6 + Math.random()*6) + 's';
-    document.body.appendChild(petal);
-
-    setTimeout(() => petal.remove(), 12000);
-  }, 800);
- function checkLove() {
-  const input = document.getElementById("loveInput").value.toLowerCase().trim();
-  const error = document.getElementById("errorMsg");
-
-  const validAnswers = ["i love you", "i love you too", "love you"];
-
-  if (validAnswers.includes(input)) {
-
-    // 🌸 Flower burst effect
-    for (let i = 0; i < 25; i++) {
-      createBurstFlower();
+    // Create sparkles
+    function createSparkles() {
+      const container = document.getElementById('sparklesContainer');
+      for (let i = 0; i < 20; i++) {
+        const s = document.createElement('div');
+        s.className = 'sparkle-particle';
+        s.style.left = Math.random() * 100 + '%';
+        s.style.top = Math.random() * 100 + '%';
+        s.style.background = `rgba(255, ${200 + Math.random()*40}, ${140 + Math.random()*50}, ${0.25 + Math.random()*0.35})`;
+        s.style.boxShadow = `0 0 ${6 + Math.random()*8}px rgba(255, 200, 150, 0.4)`;
+        s.style.animation = `sparkle ${4 + Math.random()*5}s ease-in-out ${Math.random()*6}s infinite`;
+        s.style.width = (2 + Math.random()*3) + 'px';
+        s.style.height = s.style.width;
+        container.appendChild(s);
+      }
     }
 
-    // 💖 Fade out gate
-    const gate = document.getElementById("loveGate");
-    gate.style.transition = "opacity 1s ease";
-    gate.style.opacity = "0";
+    // Create floating petals
+    function createPetals() {
+      const container = document.getElementById('petalsContainer');
+      setInterval(() => {
+        if (container.children.length > 6 || currentState !== 'letter') return;
+        const p = document.createElement('div');
+        p.className = 'floating-petal';
+        p.textContent = petalChars[Math.floor(Math.random() * petalChars.length)];
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = '-20px';
+        p.style.fontSize = (12 + Math.random()*10) + 'px';
+        p.style.opacity = '0';
+        p.style.color = ['#f0c8a0', '#e8b890', '#dba88c'][Math.floor(Math.random() * 3)];
+        const dur = 10 + Math.random() * 8;
+        p.style.animationDuration = dur + 's';
+        container.appendChild(p);
+        setTimeout(() => p.remove(), dur * 1000);
+      }, 3500);
+    }
 
-    setTimeout(() => {
-      gate.style.display = "none";
-    }, 1000);
+    // Create glow pulse on click
+    function createGlowPulse(x, y, color) {
+      const pulse = document.createElement('div');
+      pulse.className = 'glow-pulse';
+      pulse.style.left = x + 'px';
+      pulse.style.top = y + 'px';
+      pulse.style.width = '20px';
+      pulse.style.height = '20px';
+      pulse.style.marginLeft = '-10px';
+      pulse.style.marginTop = '-10px';
+      pulse.style.background = color;
+      pulse.style.opacity = '0.6';
+      document.body.appendChild(pulse);
+      setTimeout(() => pulse.remove(), 1200);
+    }
 
-    // 🌟 Glow effect
-    document.body.style.transition = "background 2s ease";
-    document.body.style.background = "radial-gradient(circle, #5a1a3a, #140016)";
+    // Click bloom effect
+    function createBloom(e) {
+      const flower = document.createElement('div');
+      flower.className = 'bloom-flower';
+      flower.innerHTML = flowerSVGs[Math.floor(Math.random() * flowerSVGs.length)];
+      flower.style.left = (e.clientX - 18) + 'px';
+      flower.style.top = (e.clientY - 18) + 'px';
+      document.body.appendChild(flower);
+      setTimeout(() => {
+        flower.classList.add('fading');
+        setTimeout(() => flower.remove(), 1500);
+      }, 800);
+    }
 
-    // 🎧 Smooth music fade-in
-    const music = document.getElementById("bgMusic");
-    music.volume = 0;
-    music.play();
+    // Show heart frame with image placeholder
+    function showHeartFrame() {
+      const heart = document.createElement('div');
+      heart.className = 'heart-frame';
+      heart.innerHTML = `
+        <div class="heart-shape">
+          <svg width="100%" height="100%" viewBox="0 0 280 280" style="display: none;"></svg>
+        </div>
+      `;
+      document.body.appendChild(heart);
+      
+      setTimeout(() => {
+        const heartEl = document.querySelector('.heart-frame');
+        if (heartEl) {
+          heartEl.style.animation = 'fadeOut 1s ease-out forwards';
+          setTimeout(() => heartEl.remove(), 1000);
+        }
+      }, 5000);
+    }
 
-    let vol = 0;
-    const fade = setInterval(() => {
-      if (vol < 0.2) {
-        vol += 0.01;
-        music.volume = vol;
-      } else {
-        clearInterval(fade);
+    // Screen transitions
+    function transitionToReveal() {
+      document.getElementById('openingScreen').classList.add('hidden');
+      document.getElementById('revealScreen').classList.remove('hidden');
+      currentState = 'reveal';
+      
+      setTimeout(() => {
+        transitionToLetter();
+      }, 2500);
+    }
+
+    function transitionToLetter() {
+       document.getElementById('revealScreen').classList.add('hidden');
+  document.getElementById('letterCard').classList.remove('hidden');
+  document.getElementById('progressContainer').classList.remove('hidden');
+  document.getElementById('clickHint').classList.remove('hidden');
+  currentState = 'letter';
+
+  // Play music
+  const music = document.getElementById('backgroundMusic');
+  music.play().catch(e => {
+    console.log("Autoplay prevented. Will play on next click.");
+  });
+      document.getElementById('revealScreen').classList.add('hidden');
+      document.getElementById('letterCard').classList.remove('hidden');
+      document.getElementById('progressContainer').classList.remove('hidden');
+      document.getElementById('clickHint').classList.remove('hidden');
+      currentState = 'letter';
+    }
+
+    document.addEventListener('click', (e) => {
+      if (e.target.id === 'voiceBtn') return;
+      if (currentState === 'opening') {
+        createGlowPulse(e.clientX, e.clientY, '#d4956f');
+        transitionToReveal();
+      } else if (currentState === 'letter') {
+        createBloom(e);
       }
-    }, 100);
+    });
 
-  } else {
-    error.textContent = "hmm… try again 💭";
+
+
+    function applyConfig(config) {
+      const bg = config.background_color || defaultConfig.background_color;
+      const surface = config.surface_color || defaultConfig.surface_color;
+      const text = config.text_color || defaultConfig.text_color;
+      const primary = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondary = config.secondary_action_color || defaultConfig.secondary_action_color;
+      const fontFamily = config.font_family || defaultConfig.font_family;
+      const baseSize = config.font_size || defaultConfig.font_size;
+
+      const mainBg = document.getElementById('mainBg');
+      mainBg.style.background = `radial-gradient(ellipse 150% 150% at 50% 40%, ${bg} 0%, ${adjustBrightness(bg, -8)} 30%, ${adjustBrightness(bg, -16)} 100%)`;
+
+      document.getElementById('glow1').style.background = primary;
+      document.getElementById('glow2').style.background = secondary;
+      document.getElementById('glow3').style.background = primary;
+
+      const card = document.querySelector('.glass-card');
+      card.style.background = surface;
+      card.style.borderColor = `${primary}40`;
+
+      // Text colors
+      const scriptElements = [
+        document.getElementById('openingQuestion'),
+        document.getElementById('revealLine'),
+        document.getElementById('letterTitle'),
+        document.getElementById('letterGreeting'),
+        document.getElementById('letterClosing')
+      ];
+      scriptElements.forEach(el => { if (el) el.style.color = primary; });
+
+      document.getElementById('letterBody').style.color = text;
+      document.getElementById('letterSubtitle').style.color = secondary;
+      document.getElementById('letterSignature').style.color = secondary;
+      document.getElementById('progressLabel').style.color = secondary;
+      document.getElementById('tapPrompt').style.color = secondary;
+      document.getElementById('clickHint').style.color = secondary;
+      document.getElementById('bottomFlourish').style.color = primary;
+      document.getElementById('flourishSvg').style.color = primary;
+
+      document.getElementById('progressTrack').style.background = `${secondary}40`;
+      document.getElementById('progressFill').style.background = `linear-gradient(90deg, ${primary}, ${secondary})`;
+
+      // Fonts
+      const scriptFont = 'Dancing Script';
+      const bodyStack = `${fontFamily}, Cormorant Garamond, serif`;
+      const scriptStack = `${scriptFont}, cursive`;
+
+      document.getElementById('openingQuestion').style.fontFamily = scriptStack;
+      document.getElementById('openingQuestion').style.fontSize = `${baseSize * 1.8}px`;
+      document.getElementById('revealLine').style.fontFamily = scriptStack;
+      document.getElementById('revealLine').style.fontSize = `${baseSize * 1.6}px`;
+      document.getElementById('letterTitle').style.fontFamily = scriptStack;
+      document.getElementById('letterTitle').style.fontSize = `${baseSize * 1.6}px`;
+      document.getElementById('letterGreeting').style.fontFamily = scriptStack;
+      document.getElementById('letterGreeting').style.fontSize = `${baseSize * 1.4}px`;
+      document.getElementById('letterClosing').style.fontFamily = scriptStack;
+      document.getElementById('letterClosing').style.fontSize = `${baseSize * 1.2}px`;
+
+      document.getElementById('letterBody').style.fontFamily = bodyStack;
+      document.getElementById('letterBody').style.fontSize = `${baseSize * 1.05}px`;
+      document.getElementById('letterSubtitle').style.fontFamily = bodyStack;
+      document.getElementById('letterSubtitle').style.fontSize = `${baseSize * 0.9}px`;
+      document.getElementById('letterSignature').style.fontFamily = bodyStack;
+      document.getElementById('letterSignature').style.fontSize = `${baseSize * 0.95}px`;
+
+      document.getElementById('progressLabel').style.fontFamily = `Lora, ${bodyStack}`;
+      document.getElementById('progressLabel').style.fontSize = `${baseSize * 0.75}px`;
+      document.getElementById('tapPrompt').style.fontFamily = `Lora, ${bodyStack}`;
+      document.getElementById('tapPrompt').style.fontSize = `${baseSize * 0.75}px`;
+      document.getElementById('clickHint').style.fontFamily = `Lora, ${bodyStack}`;
+      document.getElementById('clickHint').style.fontSize = `${baseSize * 0.75}px`;
+
+      // Text content
+      document.getElementById('openingQuestion').textContent = config.opening_question || defaultConfig.opening_question;
+      document.getElementById('revealLine').textContent = config.reveal_line || defaultConfig.reveal_line;
+      document.getElementById('letterTitle').textContent = config.letter_title || defaultConfig.letter_title;
+      document.getElementById('letterSubtitle').textContent = config.letter_subtitle || defaultConfig.letter_subtitle;
+      document.getElementById('letterGreeting').textContent = config.letter_greeting || defaultConfig.letter_greeting;
+      document.getElementById('letterClosing').textContent = config.letter_closing || defaultConfig.letter_closing;
+      document.getElementById('letterSignature').textContent = config.letter_signature || defaultConfig.letter_signature;
+      document.getElementById('progressLabel').textContent = 'Day 2 of 18';
+
+      const bodyText = config.letter_body || defaultConfig.letter_body;
+      const bodyEl = document.getElementById('letterBody');
+      bodyEl.innerHTML = '';
+      bodyText.split('\n').forEach(para => {
+        if (para.trim() === '') {
+          bodyEl.appendChild(document.createElement('br'));
+        } else {
+          const p = document.createElement('p');
+          p.className = 'mb-4';
+          p.textContent = para;
+          bodyEl.appendChild(p);
+        }
+      });
+    }
+
+    function adjustBrightness(hex, amount) {
+      if (hex.startsWith('rgba')) return hex;
+      let c = hex.replace('#', '');
+      if (c.length === 3) c = c[0]+c[0]+c[1]+c[1]+c[2]+c[2];
+      const num = parseInt(c, 16);
+      let r = Math.min(255, Math.max(0, ((num >> 16) & 255) + amount));
+      let g = Math.min(255, Math.max(0, ((num >> 8) & 255) + amount));
+      let b = Math.min(255, Math.max(0, (num & 255) + amount));
+      return `#${((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1)}`;
+    }
+
+    // Init
+    createSparkles();
+    createPetals();
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => {
+          applyConfig(config);
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); }
+            },
+            {
+              get: () => config.surface_color || defaultConfig.surface_color,
+              set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); }
+            },
+            {
+              get: () => config.primary_action_color || defaultConfig.primary_action_color,
+              set: (v) => { config.primary_action_color = v; window.elementSdk.setConfig({ primary_action_color: v }); }
+            },
+            {
+              get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+              set: (v) => { config.secondary_action_color = v; window.elementSdk.setConfig({ secondary_action_color: v }); }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['opening_question', config.opening_question || defaultConfig.opening_question],
+          ['reveal_line', config.reveal_line || defaultConfig.reveal_line],
+          ['letter_title', config.letter_title || defaultConfig.letter_title],
+          ['letter_subtitle', config.letter_subtitle || defaultConfig.letter_subtitle],
+          ['letter_greeting', config.letter_greeting || defaultConfig.letter_greeting],
+          ['letter_body', config.letter_body || defaultConfig.letter_body],
+          ['letter_closing', config.letter_closing || defaultConfig.letter_closing],
+          ['letter_signature', config.letter_signature || defaultConfig.letter_signature]
+        ])
+      });
+    }
+    
+    // Apply initial config
+    applyConfig(defaultConfig);
+  </script>
+  <script>// Scroll-triggered music
+let musicPlayed = false; // play only once
+
+window.addEventListener('scroll', () => {
+  if (musicPlayed) return;
+
+  const scrollTop = window.scrollY || window.pageYOffset;
+  const windowHeight = window.innerHeight;
+  const fullHeight = document.documentElement.scrollHeight;
+
+  if (scrollTop + windowHeight >= fullHeight - 10) { // near bottom
+    const music = document.getElementById('backgroundMusic');
+    music.play().catch(e => console.log("Music autoplay blocked:", e));
+    musicPlayed = true;
   }
-  document.body.classList.add("glow");
-}
-</script>
-<audio id="bgMusic" loop>
-  <source src="Stephen_Sanchez_Until_I_Found_You_Official_Video_GxldQ9eX2wo.m4a" type="audio/mpeg">
-</audio>
-</body>
+});</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e8346f301f7f7f3',t:'MTc3NTUwNDU2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
